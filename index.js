@@ -40,8 +40,11 @@
       }
       x[i] = xi & 1;
       if ( does_carry ) {
+        if ( xi < 0 ) xi = Math.abs(xi);
         carry = xi - x[i];
-        carry >>= 1;
+        if ( ! does_borrow ) {
+          carry >>= 1;
+        }
       }
     }
     if ( does_carry && carry ) {
@@ -74,7 +77,7 @@
   }
 
   function dif( ...v ) {
-    return pointwise( (a,b) => a -b, 0, false, true, ...v );
+    return pointwise( (a,b) => a - b, 0, true, true, ...v );
   }
 
   // implement a convolve and mul calls convolve
