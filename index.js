@@ -9,6 +9,7 @@
 
     const bitmath = {
       add, dif, mul, div, 
+      less_than, more_than, equal,
       mod,
       inv, and, xor, or
     };
@@ -32,7 +33,6 @@
     }
     
     function to_borrow( n, b ) {
-      console.log("nb", n,b);
       if ( n >= 0 ) {
         return { point: n, borrow : 0 };
       }
@@ -41,7 +41,6 @@
       carry += 1;
       point += borrow*b;
       point %= b;
-      console.log("pb", point, borrow );
       return { point, borrow };
     }
 
@@ -73,7 +72,6 @@
           carriage = carry;
         }
         if ( does_borrow ) {
-          console.log( borrowance );
           xi = op(xi, borrowance);
           const { point, borrow } = to_borrow( xi, 2 ); 
           x[i] = point;

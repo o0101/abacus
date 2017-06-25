@@ -11,6 +11,12 @@
   const f2i = bitmath.inv(f2);
   const p = bitmath.mul(a,b);
   const q = bitmath.mul(a,a,b,b,b);
+  const altb = bitmath.less_than(a,b);
+  const amtb = bitmath.more_than(a,b);
+  const eq = bitmath.equal(a,a);
+  const neq = bitmath.equal(a,b);
+  const bmta = bitmath.more_than(b,a);
+  const blta = bitmath.less_than(b,a);
   console.log( `
     a=${a}
     b=${b}
@@ -19,5 +25,12 @@
     f2=a(cdif)b=${f2}
     f2i=inv(f2)=${f2i}
     p=a*b=${p}
-    q=a*a*b*b*b=${q}`);
+    q=a*a*b*b*b=${q}
+    a < b=${altb}
+    a > b=${amtb}
+    a = a=${eq}
+    a = b=${neq}
+    b > a=${bmta}
+    b < a=${blta}
+  `);
 }
