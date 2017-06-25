@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/dosaygo-coder-0/bitmath/issues"
   },
-  "homepage": "https://github.com/dosaygo-coder-0/bitmath#readme"
+  "homepage": "https://github.com/dosaygo-coder-0/bitmath#readme",
+  "dependencies": {
+    "uint1array": "^1.0.5"
+  }
 }
