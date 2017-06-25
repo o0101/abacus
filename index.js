@@ -3,7 +3,7 @@
 {
   const Uint1Array = require('uint1array');
   const bitmath = {
-    add, sub, mul, div, 
+    add, dif, mul, div, 
     mod,
     inv, and, xor, or
   };
@@ -19,16 +19,18 @@
   }
 
   function pointwise( op, initial, does_carry, ...v ) {
-    console.log( "PW" );
-    console.log( v.join('\n') )
+    console.log( v );
     const maxlen = to_maxlen( ...v );
     const vnum = v.length;
-    console.log( vnum, maxlen );
-    const x = new Uint1Array( maxlen + 1 );
+    console.log( maxlen, vnum );
+    const x = new Uint1Array( maxlen + (does_carry ? 1 : 0 ) );
 
     let carry = initial;
     for( let i = 0; i < maxlen; i++ ) {
-      let xi = op( initial, carry );
+      let xi = initial;
+      if ( does_carry ) {
+        xi = op( xi, carry );
+      }
       for( let j = 0; j < vnum; j++ ) {
         if ( i >= v[j].length ) continue;
         if ( xi >= Number.MAX_SAFE_INTEGER ) {
@@ -71,8 +73,8 @@
     return pointwise( (a,b) => a + b, 0, true, ...v );
   }
 
-  function sub( ...v ) {
-    return pointwise( (a,b) => -a -b, 0, true, ...v );
+  function dif( u, v ) {
+    return add( u, add( inv(v), Uint1Array.of(1) ) );
   }
 
   function mul( basis, scaler ) {
