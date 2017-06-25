@@ -200,7 +200,18 @@
 
   // 
   function div( u, v ) {
-    let quotient, remainder;
+    let dividend = u;
+    const divisor = v;
+    const quotient = new Uint1Array( dividend.length );  
+    const remainder = new Uint1Array( divisor.length );
+
+    while( more_than( dividend, divisor ) ) {
+      
+
+    }
+
+    remainder.set( dividend );
+
 
     return { quotient, remainder };
   }
