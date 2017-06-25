@@ -39,7 +39,7 @@
   }
 
   function pointwise( op, initial, does_carry, does_borrow, ...v ) {
-    const maxlen = to_maxlen( ...v ) + ( does_carry ? 1 : 0 );
+    const maxlen = to_maxlen( ...v ) + ( (does_carry || does_borrow) ? 1 : 0 );
     const head = v.shift();  
     const vnum = v.length;
 
@@ -71,14 +71,20 @@
         borrowance = borrow;
       }
     }
+    // TODO it may be necessary for some "novel operations" to loop until
+    // carriage and borrowance are zero
     if ( does_carry && carriage ) {
-      x[maxlen] = carriage;
+      x[maxlen] = op( carriage, initial );
     }
     if ( does_borrow && borrowance ) {
-      console.log("WHAT HERE?", borrowance );
+      x[maxlen] = op( borrowance, initial );
     }
 
     return x;
+  }
+
+  function unary( op, v ) {
+    return v.map( b => op(b) );
   }
 
   function xor( ...v ) {
@@ -93,8 +99,8 @@
     return pointwise( (a,b) => a | b, 0, false, false, ...v );
   }
 
-  function inv( ...v ) {
-    return pointwise( (a,b) => a ^ ((~b)&1), 0, false, false, ...v );
+  function inv( v ) {
+    return unary( a => (~a)&1, v );
   }
 
   function add( ...v ) {
@@ -135,9 +141,9 @@
   }
 
   function div( u, v ) {
-      let quotient, remainder;
+    let quotient, remainder;
 
-      return { quotient, remainder };
+    return { quotient, remainder };
   }
 
   function mod( u, v ) {
