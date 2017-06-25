@@ -18,7 +18,7 @@
     return Math.max( ...v.map( b => b.length ) );
   }
 
-  function pointwise( op, initial, does_carry, ...v ) {
+  function pointwise( op, initial, does_carry, does_borrow, ...v ) {
     console.log( v );
     const maxlen = to_maxlen( ...v );
     const vnum = v.length;
@@ -54,29 +54,30 @@
   }
 
   function xor( ...v ) {
-    return pointwise( (a,b) => a ^ b, 0, false, ...v );
+    return pointwise( (a,b) => a ^ b, 0, false, false, ...v );
   }
 
   function and( ...v ) {
-    return pointwise( (a,b) => a & b, 1, false, ...v );
+    return pointwise( (a,b) => a & b, 1, false, false, ...v );
   }
 
   function or( ...v ) {
-    return pointwise( (a,b) => a | b, 0, false, ...v );
+    return pointwise( (a,b) => a | b, 0, false, false, ...v );
   }
 
   function inv( ...v ) {
-    return pointwise( (a,b) => a ^ ((~b)&1), 0, false, ...v );
+    return pointwise( (a,b) => a ^ ((~b)&1), 0, false, false, ...v );
   }
 
   function add( ...v ) {
-    return pointwise( (a,b) => a + b, 0, true, ...v );
+    return pointwise( (a,b) => a + b, 0, true, false, ...v );
   }
 
-  function dif( u, v ) {
-    return add( u, add( inv(v), Uint1Array.of(1) ) );
+  function dif( ...v ) {
+    return pointwise( (a,b) => a -b, 0, false, true, ...v );
   }
 
+  // implement a convolve and mul calls convolve
   function mul( basis, scaler ) {
     const product = new Uint1Array( basis.length + scaler.length - 1 ); 
     const scaled_bases = [];
@@ -96,7 +97,9 @@
   }
 
   function div( u, v ) {
+      let quotient, remainder;
 
+      return { quotient, remainder };
   }
 
   function mod( u, v ) {
