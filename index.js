@@ -228,13 +228,11 @@
       let i = 0;
       let j = dividend_length - divisor_length;
       n[i] = dividend.subarray( dividend_length - divisor_length, dividend_length );
-      console.log( `divisor ${divisor} dividend ${dividend}` );
       while( j >= 0 && i <= dividend_length ) {
         t[i] = less_than( divisor, n[i] ) || equal( divisor, n[i] ); 
-        console.log( `i ${i} j ${j} t[i] ${t[i]} divisor ${divisor} n[i] ${n[i]}` );
         if ( t[i] ) {
-          q[j] = 1; 
           j = j - 1;
+          q[j] = 1; 
           i += 1;
           n[i] = dif( n[i-1], divisor )
         } else {
