@@ -32,16 +32,13 @@
       return { point, carry };
     }
     
-    function to_borrow( n, b ) {
+    function to_borrow( top, bottom ) {
+      let n = top - bottom;
       if ( n >= 0 ) {
-        return { point: n, borrow : 0 };
+        return { point : n, borrow : 0 }
       }
-      let { point, carry } = to_carry( n, b ); 
-      carry += 1;
-      const borrow = carry;
-      point += borrow*b;
-      point %= b;
-      return { point, borrow };
+      n += 2;
+      return { point : n, borrow : 2 }
     }
 
     function find_msb( u ) {
@@ -56,6 +53,12 @@
 
     function pointwise( op, initial, does_carry, does_borrow, ...v ) {
       const maxlen = to_maxlen( ...v ) + ( (does_carry || does_borrow) ? 1 : 0 );
+      // normalize lengths
+      v = v.map( b => {
+        const bnew = new Uint1Array( maxlen );
+        bnew.set( b ); 
+        return bnew;
+      });
       const head = v.shift();  
       const vnum = v.length;
 
@@ -66,12 +69,19 @@
       let borrowance = initial;
       for( let i = 0; i < maxlen; i++ ) {
         let xi = x[i];
+        if ( does_borrow ) {
+          xi = op(xi, borrowance); 
+          borrowance = initial;
+        }
         for( let j = 0; j < vnum; j++ ) {
-          if ( i >= v[j].length ){
-            continue;
+          if ( does_borrow ) {
+            // FIXME ought to throw op to to_borrow, why assume we know what metric ?
+            const { point, borrow } = to_borrow( xi, v[j][i] );
+            borrowance += borrow;
+            xi = point;
+          } else {
+            xi = op( xi, v[j][i] );
           }
-
-          xi = op( xi, v[j][i] );
         }
         if ( does_carry ) {
           xi = op(xi, carriage);
@@ -80,10 +90,8 @@
           carriage = carry;
         }
         if ( does_borrow ) {
-          xi = op(xi, borrowance);
-          const { point, borrow } = to_borrow( xi, 2 ); 
-          x[i] = point;
-          borrowance = borrow;
+          borrowance >>= 1;
+          x[i] = xi;
         }
       }
       // TODO it may be necessary for some "novel operations" to loop until
@@ -95,7 +103,8 @@
         x[maxlen] = op( borrowance, initial );
       }
 
-      return x;
+      const result = x.subarray( 0, find_msb(x) + 1 );
+      return result;
     }
 
     function unary( op, v ) {
