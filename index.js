@@ -37,8 +37,8 @@
         return { point: n, borrow : 0 };
       }
       let { point, carry } = to_carry( n, b ); 
-      const borrow = carry + 1;
       carry += 1;
+      const borrow = carry;
       point += borrow*b;
       point %= b;
       return { point, borrow };
@@ -118,32 +118,32 @@
     // true if u < v 
     // not timesafe
     function less_than( u, v ) {
-      const minlen = Math.min( u.length, v.length );
-      let i = minlen;
+      const msb = Math.max( find_msb( u ), find_msb( v ) );
+      let i = msb;
       let eq = true;
       let lt = true;
-      while( i-- ) {
+      do {
         eq = eq && u[i] == v[i]; 
         if ( eq ) continue;
-        lt = lt && u[i] < v[i];    
+        lt = lt && (u[i] || 0) < (v[i] || 0);    
         break;
-      }
+      } while( i-- );
       return ! eq && lt;
     }
 
     // true if u > v 
     // not timesafe
     function more_than( u, v ) {
-      const minlen = Math.min( u.length, v.length );
-      let i = minlen;
+      const msb = Math.max( find_msb( u ), find_msb( v ) );
+      let i = msb;
       let eq = true;
       let mt = true;
-      while( i-- ) {
+      do{
         eq = eq && u[i] == v[i]; 
         if ( eq ) continue;
-        mt = mt && u[i] > v[i];    
+        mt = mt && (u[i] || 0) > (v[i] || 0);
         break;
-      }
+      } while( i-- );
       return ! eq && mt;
     }
 
@@ -209,37 +209,35 @@
   // inverse convolution 
 
     function div( u, v ) {
-      let dividend = u;
-      const original_dividend = u;
-      const divisor = v;
-      let quotient = new Uint1Array( dividend.length );  
-      const remainder = new Uint1Array( divisor.length );
-
-      let dividend_msb = find_msb( dividend );
-      const divisor_msb = find_msb( divisor );
-      console.log( `dividend ${u} msb ${dividend_msb}, divisor ${v} msb ${divisor_msb}` );
-      let i = dividend_msb - divisor_msb;
-      let j = dividend_msb;
-      do {
-        let dividend_msb = find_msb( dividend );
-        const dividend_slice = dividend.subarray( dividend_msb - divisor_msb, dividend_msb + 1 );
-        console.log( `j${j}, dividend ${dividend}, slice ${dividend_slice}` );
-        if ( less_than( divisor, dividend_slice ) || equal( divisor, dividend_slice ) ) {
-          quotient[j] = 1;
-          dividend = bitmath.sub( dividend_slice, divisor );
+      const divisor_length = find_msb( v ) + 1;
+      const dividend_length = find_msb( u ) + 1;
+      const dividend = u.subarray( 0, dividend_length );
+      const divisor = v.subarray( 0, divisor_length );
+      const n = new Array( dividend_length );
+      const t = new Array( dividend_length );
+      const q = new Uint1Array( dividend_length );
+      let i = 0;
+      let j = dividend_length - divisor_length;
+      n[i] = dividend.subarray( dividend_length - divisor_length, dividend_length );
+      console.log( `divisor ${divisor} dividend ${dividend}` );
+      while( j >= 0 ) {
+        t[i] = less_than( divisor, n[i] ); 
+        console.log( `i ${i} j ${j} t[i] ${t[i]} divisor ${divisor} n[i] ${n[i]}` );
+        if ( t[i] ) {
+          q[j] = 1; 
+          j = j - 1;
+          i += 1;
+          n[i] = dif( n[i-1], divisor )
         } else {
-          const new_dividend = new Uint1Array( dividend_slice.length + 1 );
-          new_dividend.set( dividend_slice );
-          new_dividend[dividend_slice.length] = original_dividend[dividend_slice.length];
-          dividend = new_dividend;
+          j = j - 1; 
+          i += 1;
+          n[i] = new Uint1Array( n[i-1].length + 1 );
+          n[i].set( n[i-1], 1 );
+          n[i][0] = dividend[j];
         }
-        j -= 1;
-      } while( j > -1 && dividend.length < original_dividend.length || less_than( divisor, dividend ) )
-
-      remainder.set( dividend );
-
-      quotient = quotient.subarray( j+1, find_msb( quotient ) + 1 );
-
+      }
+      const remainder = n[i];
+      const quotient = q.subarray( 0, find_msb( q ) + 1 );
       return { quotient, remainder };
     }
 
