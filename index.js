@@ -44,6 +44,14 @@
       return { point, borrow };
     }
 
+    function find_msb( u ) {
+      let i = u.length;
+      while( i-- ) {
+        if ( u[i] ) return i;
+      }
+      return i;
+    }
+
   // combinators / applicatives / monads
 
     function pointwise( op, initial, does_carry, does_borrow, ...v ) {
@@ -198,25 +206,44 @@
       return scaled_basis;
     }
 
-  // 
-  function div( u, v ) {
-    let dividend = u;
-    const divisor = v;
-    const quotient = new Uint1Array( dividend.length );  
-    const remainder = new Uint1Array( divisor.length );
+  // inverse convolution 
 
-    while( more_than( dividend, divisor ) ) {
-      
+    function div( u, v ) {
+      let dividend = u;
+      const original_dividend = u;
+      const divisor = v;
+      let quotient = new Uint1Array( dividend.length );  
+      const remainder = new Uint1Array( divisor.length );
 
+      let dividend_msb = find_msb( dividend );
+      const divisor_msb = find_msb( divisor );
+      console.log( `dividend ${u} msb ${dividend_msb}, divisor ${v} msb ${divisor_msb}` );
+      let i = dividend_msb - divisor_msb;
+      let j = dividend_msb;
+      do {
+        let dividend_msb = find_msb( dividend );
+        const dividend_slice = dividend.subarray( dividend_msb - divisor_msb, dividend_msb + 1 );
+        console.log( `j${j}, dividend ${dividend}, slice ${dividend_slice}` );
+        if ( less_than( divisor, dividend_slice ) || equal( divisor, dividend_slice ) ) {
+          quotient[j] = 1;
+          dividend = bitmath.sub( dividend_slice, divisor );
+        } else {
+          const new_dividend = new Uint1Array( dividend_slice.length + 1 );
+          new_dividend.set( dividend_slice );
+          new_dividend[dividend_slice.length] = original_dividend[dividend_slice.length];
+          dividend = new_dividend;
+        }
+        j -= 1;
+      } while( j > -1 && dividend.length < original_dividend.length || less_than( divisor, dividend ) )
+
+      remainder.set( dividend );
+
+      quotient = quotient.subarray( j+1, find_msb( quotient ) + 1 );
+
+      return { quotient, remainder };
     }
 
-    remainder.set( dividend );
-
-
-    return { quotient, remainder };
-  }
-
-  function mod( u, v ) {
-    return div( u, v ).remainder;
-  }
+    function mod( u, v ) {
+      return div( u, v ).remainder;
+    }
 }

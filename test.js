@@ -17,6 +17,7 @@
   const neq = bitmath.equal(a,b);
   const bmta = bitmath.more_than(b,a);
   const blta = bitmath.less_than(b,a);
+  const div7 = bitmath.div( Uint1Array.of( 1,0,0,1,0,1,1 ), Uint1Array.of(1,1,1) ); // 105 / 7 
   console.log( `
     a=${a}
     b=${b}
@@ -32,5 +33,6 @@
     a = b=${neq}
     b > a=${bmta}
     b < a=${blta}
+    div7 = 105/7 = ${div7.quotient} ${div7.remainder}
   `);
 }
