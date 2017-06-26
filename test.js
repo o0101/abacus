@@ -18,6 +18,8 @@
   const bmta = bitmath.more_than(b,a);
   const blta = bitmath.less_than(b,a);
   const div7 = bitmath.div( Uint1Array.of( 1,0,0,1,0,1,1 ), Uint1Array.of(1,1,1) ); // 105 / 7 
+  const div7r1 = bitmath.div( Uint1Array.of( 0,1,0,1,0,1,1 ), Uint1Array.of(1,1,1) ); // 105 / 7 
+  const div7r3 = bitmath.div( Uint1Array.of( 0,0,1,1,0,1,1 ), Uint1Array.of(1,1,1) ); // 105 / 7 
   console.log( `
     a=${a}
     b=${b}
@@ -34,5 +36,7 @@
     b > a=${bmta}
     b < a=${blta}
     div7 = 105/7 = ${div7.quotient} ${div7.remainder}
+    div7r1 = 106/7 = ${div7r1.quotient} ${div7r1.remainder}
+    div7r3 = 107/7 = ${div7r3.quotient} ${div7r3.remainder}
   `);
 }
