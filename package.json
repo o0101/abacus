@@ -1,6 +1,6 @@
 {
   "name": "bitmath",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "add, subtract, multiply, euclidean divide bit arrays of any size",
   "main": "index.js",
   "scripts": {
@@ -18,5 +18,10 @@
   "homepage": "https://github.com/dosaygo-coder-0/bitmath#readme",
   "dependencies": {
     "uint1array": "^1.0.5"
-  }
+  },
+  "devDependencies": {},
+  "keywords": [
+    "bitmath",
+    "arbitrary-precision"
+  ]
 }
