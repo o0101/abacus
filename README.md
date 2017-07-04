@@ -11,11 +11,13 @@ very simple.
 m = require('bitmath');
 x = Uint1Array.of(1,0,1,0);
 y = Uint1Array.of(1,1,1);
+z = Uint1Array.of(0,1);
 m.add(x,y)
 m.mul(x,y)
 m.div(x,y)
-m.dif(x,y)
+m.dif(x,y) // subtract (no negative values!)
 m.mod(x,y)
+m.modexp(x,y,x)
 ```
 
 ## Latest news
