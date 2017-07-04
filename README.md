@@ -20,4 +20,5 @@ m.mod(x,y)
 
 ## Latest news
 
+Modexp using repeated squaring in a (trying to be) timesafe way is implemented.
 Division algorithm is fixed. Modexp naive version is implemented.
