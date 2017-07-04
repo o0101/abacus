@@ -2,8 +2,6 @@
 {
   const Uint1Array = require('uint1array');
   const bitmath = require('./index.js');
-
-  /**
   const a = Uint1Array.of( 1, 1, 1, 1, 1, 1, 1 );
   const b = Uint1Array.of( 1, 1, 0, 0, 0, 1);
   const c = bitmath.add(a,b);
@@ -21,7 +19,7 @@
   const div7 = bitmath.div( Uint1Array.of( 1,0,0,1,0,1,1 ), Uint1Array.of(1,1,1) ); // 105 / 7 
   const div7r1 = bitmath.div( Uint1Array.of( 0,1,0,1,0,1,1 ), Uint1Array.of(1,1,1) ); // 105 / 7 
   const div7r3 = bitmath.div( Uint1Array.of( 0,0,1,1,0,1,1 ), Uint1Array.of(1,1,1) ); // 105 / 7 
-  const modexp = 'none'; //bitmath.modexp( Uint1Array.of( 1, 1 ), Uint1Array.of( 1,1,1,1,1,1,1,1 ), Uint1Array.of( 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1 ) );
+  const modexp = bitmath.modexp( Uint1Array.of( 1, 1 ), Uint1Array.of( 1,1,1,1,1,1,1,1 ), Uint1Array.of( 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1 ) );
   console.log( `
     a=${a}
     b=${b}
@@ -42,7 +40,6 @@
     div7r3 = 107/7 = ${div7r3.quotient} ${div7r3.remainder}
     modexp = 3**255 % 32768 = ${modexp}
   `);
-  **/
   const divisor = bitmath.fromSmallNumber( 17 );
   const dividend = bitmath.fromSmallNumber( 8134 );
   const dividend2 = bitmath.fromSmallNumber( 8250 );

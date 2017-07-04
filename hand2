@@ -1,0 +1,55 @@
+Extending dividend part by 1 bit from 6 to give Uint1Array [ 1, 0, 1, 1, 1, 0 ]
+Uint1Array [ 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0 ] Uint1Array [ 1, 0, 1, 1, 1, 0 ] 7 2
+Test divisor less or equal than part? true
+Setting quotient bit at 7, updating dividend part to diff Uint1Array [ 0, 0, 1, 1, 0 ]
+3 13
+Uint1Array [ 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0 ] Uint1Array [ 0, 0, 1, 1, 0 ] 6 3
+Test divisor less or equal than part? false
+Extending dividend part by 1 bit from 5 to give Uint1Array [ 0, 0, 0, 1, 1, 0 ]
+Uint1Array [ 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0 ] Uint1Array [ 0, 0, 0, 1, 1, 0 ] 6 4
+Test divisor less or equal than part? true
+Setting quotient bit at 6, updating dividend part to diff Uint1Array [ 1, 1, 1, 0, 0 ]
+5 13
+Uint1Array [ 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0 ] Uint1Array [ 1, 1, 1, 0, 0 ] 5 5
+Test divisor less or equal than part? false
+Extending dividend part by 1 bit from 4 to give Uint1Array [ 0, 1, 1, 1, 0, 0 ]
+Uint1Array [ 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0 ] Uint1Array [ 0, 1, 1, 1, 0, 0 ] 5 6
+Test divisor less or equal than part? false
+Extending dividend part by 1 bit from 3 to give Uint1Array [ 0, 0, 1, 1, 1, 0, 0 ]
+Uint1Array [ 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0 ] Uint1Array [ 0, 0, 1, 1, 1, 0, 0 ] 4 7
+Test divisor less or equal than part? true
+Setting quotient bit at 4, updating dividend part to diff Uint1Array [ 1, 1, 0, 1, 0 ]
+8 13
+Uint1Array [ 0, 0, 0, 1, 0, 1, 1, 1, 0, 0, 0, 0, 0 ] Uint1Array [ 1, 1, 0, 1, 0 ] 3 8
+Test divisor less or equal than part? false
+Extending dividend part by 1 bit from 2 to give Uint1Array [ 1, 1, 1, 0, 1, 0 ]
+Uint1Array [ 0, 0, 0, 1, 0, 1, 1, 1, 0, 0, 0, 0, 0 ] Uint1Array [ 1, 1, 1, 0, 1, 0 ] 3 9
+Test divisor less or equal than part? true
+Setting quotient bit at 3, updating dividend part to diff Uint1Array [ 0, 1, 1, 0, 0 ]
+10 13
+Uint1Array [ 0, 0, 1, 1, 0, 1, 1, 1, 0, 0, 0, 0, 0 ] Uint1Array [ 0, 1, 1, 0, 0 ] 2 10
+Test divisor less or equal than part? false
+Extending dividend part by 1 bit from 1 to give Uint1Array [ 1, 0, 1, 1, 0, 0 ]
+Uint1Array [ 0, 0, 1, 1, 0, 1, 1, 1, 0, 0, 0, 0, 0 ] Uint1Array [ 1, 0, 1, 1, 0, 0 ] 2 11
+Test divisor less or equal than part? false
+Extending dividend part by 1 bit from 0 to give Uint1Array [ 0, 1, 0, 1, 1, 0, 0 ]
+Uint1Array [ 0, 0, 1, 1, 0, 1, 1, 1, 0, 0, 0, 0, 0 ] Uint1Array [ 0, 1, 0, 1, 1, 0, 0 ] 1 12
+Test divisor less or equal than part? true
+Setting quotient bit at 1, updating dividend part to diff Uint1Array [ 1, 0, 0, 1, 0 ]
+13 13
+Uint1Array [ 1, 0, 1, 1, 0, 1, 1, 1, 0, 0, 0, 0, 0 ] Uint1Array [ 1, 0, 0, 1, 0 ] 0 13
+Test divisor less or equal than part? false
+Uint1Array [ 1, 1, 1, 1, 1 ]
+Uint1Array [ 0, 1, 1, 1, 0 ]
+Uint1Array [ 1, 0, 1, 1, 1, 0 ]
+Uint1Array [ 0, 0, 1, 1, 0 ]
+Uint1Array [ 0, 0, 0, 1, 1, 0 ]
+Uint1Array [ 1, 1, 1, 0, 0 ]
+Uint1Array [ 0, 1, 1, 1, 0, 0 ]
+Uint1Array [ 0, 0, 1, 1, 1, 0, 0 ]
+Uint1Array [ 1, 1, 0, 1, 0 ]
+Uint1Array [ 1, 1, 1, 0, 1, 0 ]
+Uint1Array [ 0, 1, 1, 0, 0 ]
+Uint1Array [ 1, 0, 1, 1, 0, 0 ]
+Uint1Array [ 0, 1, 0, 1, 1, 0, 0 ]
+Uint1Array [ 1, 0, 0, 1, 0 ]

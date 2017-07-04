@@ -220,6 +220,17 @@
   // inverse convolution 
 
     function div( u, v ) {
+      if ( less_than( u, v ) ) {
+        return {
+          quotient : Uint1Array.of(0),
+          remainder: new Uint1Array( u )
+        };
+      } else if ( equal( u, v ) ) {
+        return {
+          quotient : Uint1Array.of(1),
+          remainder: Uint1Array.of(0)
+        }
+      }
       const dividend_length = find_msb( u ) + 1;
       const dividend = u.subarray( 0, dividend_length );
       const divisor_length = find_msb( v ) + 1;
@@ -232,24 +243,20 @@
       let extend = j;
       let run = false;
       n[i] = dividend.subarray( j, dividend_length + 1 );
-      console.log( "START", i, j, n[i]+'', dividend+'', divisor+'' );
       while( extend >= 0 ) {
-      //while( j >= 0 && i <= dividend_length + 1) {
         t[i] = less_than( divisor, n[i] ) || equal( divisor, n[i] ); 
-        console.log( "Test divisor less or equal than part?", t[i] );
         if ( t[i] ) {
           run = false;
-          q[j] = 1; 
+          j = j - 1;
+          q[extend] = 1; 
           i += 1;
           const diff = dif( n[i-1], divisor )
           n[i] = new Uint1Array( divisor.length );
           n[i].set( diff );
-          j = j - 1;
-          extend = Math.min( extend, j );
-          console.log(`Setting quotient bit at ${j+1}, updating dividend part to diff ${n[i]+''}`);
-          console.log( i, dividend_length );
         } else {
+          if ( extend == 0 ) break;
           if ( run ) {
+          //if ( j - extend > 1 ) {
             j -= 1;
             run = false;
           } else {
@@ -258,15 +265,12 @@
           i += 1;
           n[i] = new Uint1Array( n[i-1].length + 1 );
           n[i].set( n[i-1], 1 );
-          n[i][0] = dividend[extend];
-          console.log(`Extending dividend part by 1 bit from ${extend} to give ${n[i]+''}`);
           extend -= 1;
+          n[i][0] = dividend[extend];
         }
-        console.log( q+'', n[i]+'', j, i );
       }
       const remainder = n[i];
       const quotient = q.subarray( 0, find_msb( q ) + 1 );
-      n.forEach( ni => console.log( ni + '' ) );
       return { quotient, remainder };
     }
 
@@ -283,7 +287,7 @@
 
     function modexp( base, exp, modulus ) {
       // naive first
-      let product = base;
+      let product = Uint1Array.of(1);
       exp = toSmallNumber( exp );
       console.log( toSmallNumber(base), exp, toSmallNumber(modulus) );
       while( exp-- ) {
@@ -292,7 +296,7 @@
         product = mod( product, modulus );
         console.log( "mod->", toSmallNumber(product));
       }
-      return product;
+      return product.subarray( 0, find_msb( product ) + 1 );
     }
 
   // to small number
