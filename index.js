@@ -8,7 +8,7 @@
   // export
 
     const bitmath = {
-      modexp,
+      modexp, modexp_naive,
       add, dif, mul, div, 
       less_than, more_than, equal,
       mod,
@@ -285,7 +285,11 @@
       And perform only the minimum necessary multiplications.
     **/
 
-    function modexp( base, exp, modulus ) {
+    function square( b ) {
+      return mul( b, b );
+    }
+
+    function modexp_naive( base, exp, modulus ) {
       // naive first
       let product = Uint1Array.of(1);
       exp = toSmallNumber( exp );
@@ -296,6 +300,33 @@
         product = mod( product, modulus );
         console.log( "mod->", toSmallNumber(product));
       }
+      return product.subarray( 0, find_msb( product ) + 1 );
+    }
+
+    // this is trying to be timesafe but I don't think it really succeeds
+    function modexp( base, exp, modulus ) {
+      let product = Uint1Array.of( 1 );
+      const baseline = new Uint1Array( modulus.length );
+      baseline[0] = 1;
+      exp.forEach( (b,i) => {
+        console.log( `b ${b}, i ${i}` );
+        let partial_product = new Uint1Array(base);
+        while( i ) {
+          console.log( `square` );
+          partial_product = square( partial_product );
+          partial_product = mod( partial_product, modulus );
+          i--;
+        }
+        if ( b ) {
+          console.log( `include` );
+          product = mul( product, partial_product );
+          product = mod( product, modulus );
+        } else {
+          console.log( `ignore` );
+          product = mul( product, baseline );
+          product = mod( product, modulus );
+        }
+      });
       return product.subarray( 0, find_msb( product ) + 1 );
     }
 

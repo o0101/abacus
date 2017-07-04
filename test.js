@@ -20,6 +20,7 @@
   const div7r1 = bitmath.div( Uint1Array.of( 0,1,0,1,0,1,1 ), Uint1Array.of(1,1,1) ); // 105 / 7 
   const div7r3 = bitmath.div( Uint1Array.of( 0,0,1,1,0,1,1 ), Uint1Array.of(1,1,1) ); // 105 / 7 
   const modexp = bitmath.modexp( Uint1Array.of( 1, 1 ), Uint1Array.of( 1,1,1,1,1,1,1,1 ), Uint1Array.of( 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1 ) );
+  const modexp_naive = bitmath.modexp_naive( Uint1Array.of( 1, 1 ), Uint1Array.of( 1,1,1,1,1,1,1,1 ), Uint1Array.of( 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1 ) );
   console.log( `
     a=${a}
     b=${b}
@@ -38,7 +39,8 @@
     div7 = 105/7 = ${div7.quotient} ${div7.remainder}
     div7r1 = 106/7 = ${div7r1.quotient} ${div7r1.remainder}
     div7r3 = 107/7 = ${div7r3.quotient} ${div7r3.remainder}
-    modexp = 3**255 % 32768 = ${modexp}
+    modexp       = 3**255 % 32768 = ${modexp}
+    modexp_naive = 3**255 % 32768 = ${modexp_naive}
   `);
   const divisor = bitmath.fromSmallNumber( 17 );
   const dividend = bitmath.fromSmallNumber( 8134 );
