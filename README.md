@@ -18,3 +18,6 @@ m.dif(x,y)
 m.mod(x,y)
 ```
 
+## Latest news
+
+Division algorithm is fixed. Modexp naive version is implemented.

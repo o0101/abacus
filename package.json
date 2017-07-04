@@ -1,6 +1,6 @@
 {
   "name": "bitmath",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "add, subtract, multiply, euclidean divide bit arrays of any size",
   "main": "index.js",
   "scripts": {
