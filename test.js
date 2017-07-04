@@ -3,6 +3,7 @@
   const Uint1Array = require('uint1array');
   const bitmath = require('./index.js');
 
+  /**
   const a = Uint1Array.of( 1, 1, 1, 1, 1, 1, 1 );
   const b = Uint1Array.of( 1, 1, 0, 0, 0, 1);
   const c = bitmath.add(a,b);
@@ -20,6 +21,7 @@
   const div7 = bitmath.div( Uint1Array.of( 1,0,0,1,0,1,1 ), Uint1Array.of(1,1,1) ); // 105 / 7 
   const div7r1 = bitmath.div( Uint1Array.of( 0,1,0,1,0,1,1 ), Uint1Array.of(1,1,1) ); // 105 / 7 
   const div7r3 = bitmath.div( Uint1Array.of( 0,0,1,1,0,1,1 ), Uint1Array.of(1,1,1) ); // 105 / 7 
+  const modexp = 'none'; //bitmath.modexp( Uint1Array.of( 1, 1 ), Uint1Array.of( 1,1,1,1,1,1,1,1 ), Uint1Array.of( 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1 ) );
   console.log( `
     a=${a}
     b=${b}
@@ -38,5 +40,29 @@
     div7 = 105/7 = ${div7.quotient} ${div7.remainder}
     div7r1 = 106/7 = ${div7r1.quotient} ${div7r1.remainder}
     div7r3 = 107/7 = ${div7r3.quotient} ${div7r3.remainder}
+    modexp = 3**255 % 32768 = ${modexp}
   `);
+  **/
+  const divisor = bitmath.fromSmallNumber( 17 );
+  const dividend = bitmath.fromSmallNumber( 8134 );
+  const dividend2 = bitmath.fromSmallNumber( 8250 );
+  const { quotient, remainder } = bitmath.div( dividend, divisor );
+  const { quotient:quotient2, remainder:remainder2 } = bitmath.div( dividend2, divisor );
+  console.log( `8134/17 = q ${quotient} r ${remainder}` );
+  console.log( `8250/17 = q ${quotient2} r ${remainder2}` );
+  /** works 
+  for( let i = 0; i < 100; i++ ) {
+    for( let j = i; j < 100; j++ ) {
+      const x = bitmath.fromSmallNumber(j);
+      const y = bitmath.fromSmallNumber(i);
+      const rd = j - i;
+      const cd = bitmath.toSmallNumber( bitmath.dif( x, y ) );
+      const t = rd == cd;
+      if ( ! t ) {
+        console.warn( "There is some problem." , j, i );
+      }
+      console.log( rd, cd, t, j, i );
+    }
+  }
+  **/
 }

@@ -8,10 +8,12 @@
   // export
 
     const bitmath = {
+      modexp,
       add, dif, mul, div, 
       less_than, more_than, equal,
       mod,
-      inv, and, xor, or
+      inv, and, xor, or,
+      toSmallNumber, fromSmallNumber
     };
 
     try { module.exports = bitmath; } catch(e) { Object.assign( self, { bitmath } ) }
@@ -194,7 +196,7 @@
       while( v.length ) {
         product = mul2arity( product, v.shift() );
       }
-      return product;
+      return product.subarray(0, find_msb(product)+1);
     }
 
     function mul2arity( basis, scaler ) {
@@ -218,36 +220,101 @@
   // inverse convolution 
 
     function div( u, v ) {
-      const divisor_length = find_msb( v ) + 1;
       const dividend_length = find_msb( u ) + 1;
       const dividend = u.subarray( 0, dividend_length );
+      const divisor_length = find_msb( v ) + 1;
       const divisor = v.subarray( 0, divisor_length );
       const n = new Array( dividend_length );
       const t = new Array( dividend_length );
       const q = new Uint1Array( dividend_length );
       let i = 0;
       let j = dividend_length - divisor_length;
-      n[i] = dividend.subarray( dividend_length - divisor_length, dividend_length );
-      while( j >= 0 && i <= dividend_length ) {
+      let extend = j;
+      let run = false;
+      n[i] = dividend.subarray( j, dividend_length + 1 );
+      console.log( "START", i, j, n[i]+'', dividend+'', divisor+'' );
+      while( extend >= 0 ) {
+      //while( j >= 0 && i <= dividend_length + 1) {
         t[i] = less_than( divisor, n[i] ) || equal( divisor, n[i] ); 
+        console.log( "Test divisor less or equal than part?", t[i] );
         if ( t[i] ) {
-          j = j - 1;
+          run = false;
           q[j] = 1; 
           i += 1;
-          n[i] = dif( n[i-1], divisor )
+          const diff = dif( n[i-1], divisor )
+          n[i] = new Uint1Array( divisor.length );
+          n[i].set( diff );
+          j = j - 1;
+          extend = Math.min( extend, j );
+          console.log(`Setting quotient bit at ${j+1}, updating dividend part to diff ${n[i]+''}`);
+          console.log( i, dividend_length );
         } else {
+          if ( run ) {
+            j -= 1;
+            run = false;
+          } else {
+            run = true;
+          }
           i += 1;
           n[i] = new Uint1Array( n[i-1].length + 1 );
           n[i].set( n[i-1], 1 );
-          n[i][0] = dividend[j-1];
+          n[i][0] = dividend[extend];
+          console.log(`Extending dividend part by 1 bit from ${extend} to give ${n[i]+''}`);
+          extend -= 1;
         }
+        console.log( q+'', n[i]+'', j, i );
       }
       const remainder = n[i];
       const quotient = q.subarray( 0, find_msb( q ) + 1 );
+      n.forEach( ni => console.log( ni + '' ) );
       return { quotient, remainder };
     }
 
     function mod( u, v ) {
       return div( u, v ).remainder;
     }
+
+  // repetition ( modular exponentiation )
+
+    /** 
+      Idea is to take binary expansion of exponent
+      And perform only the minimum necessary multiplications.
+    **/
+
+    function modexp( base, exp, modulus ) {
+      // naive first
+      let product = base;
+      exp = toSmallNumber( exp );
+      console.log( toSmallNumber(base), exp, toSmallNumber(modulus) );
+      while( exp-- ) {
+        product = mul( product, base ); 
+        console.log( "mul->", toSmallNumber(product));
+        product = mod( product, modulus );
+        console.log( "mod->", toSmallNumber(product));
+      }
+      return product;
+    }
+
+  // to small number
+
+    function toSmallNumber( b ) {
+      let n = 0;
+      let base = 2;
+      let term = 1;
+      b.forEach( unit => {
+        n += term * unit;
+        term *= base;
+      });
+      return n;
+    }
+
+    function fromSmallNumber( n ) {
+      const bits = [];
+      while( n ) {
+        bits.push( n % 2 );
+        n = n >> 1;
+      }
+      return Uint1Array.of( ...bits );
+    }
 }
+
