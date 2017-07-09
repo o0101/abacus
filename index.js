@@ -216,7 +216,36 @@
       scaled_basis.set( basis, power );
       return scaled_basis;
     }
-
+  
+    // novel operation ( xor convolution )
+    function xul( ...v ) {
+      let product = v.shift();
+      while( v.length ) {
+        product = xul2arity( product, v.shift() );
+      }
+      return product.subarray(0, find_msb(product)+1);
+    }
+  
+    function xul2arity( basis, scaler ) {
+      const product = new Uint1Array( basis.length + scaler.length ); 
+      const scaled_bases = [];
+      for( let i = 0; i < scaler.length; i++ ) {
+        if ( scaler[i] ) {
+          scaled_bases.push( xulbypowerof2( basis, i ) );
+        }
+      }
+      product.set( xor( ...scaled_bases ) );
+      return product;
+    }
+  
+    function xulbypowerof2( basis, power ) {
+      const scaled_basis = new Uint1Array( basis.length  + power );
+      scaled_basis.set( basis, power );
+      const result = inv( scaled_basis );
+      return result;
+    }
+  
+  
   // inverse convolution 
 
     function div( u, v ) {
