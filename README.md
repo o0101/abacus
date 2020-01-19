@@ -1,4 +1,5 @@
-# bitmath
+# [bitmath](https://github.com/crislin2046/bitmath) ![npm downloads](https://img.shields.io/npm/dt/bitmath) ![version](https://img.shields.io/npm/v/bitmath)
+
 add, subtract, multiply, euclidean divide bit arrays of any size
 
 Also on [npm](https://www.npmjs.com/package/bitmath)
@@ -20,7 +21,7 @@ m.mod(x,y)
 m.modexp(x,y,x)
 ```
 
-## Latest news
+
+## Timesafe Notes
 
 Modexp using repeated squaring in a (trying to be) timesafe way is implemented.
-Division algorithm is fixed. Modexp naive version is implemented.
