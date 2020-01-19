@@ -2,9 +2,13 @@
   "name": "bitmath",
   "version": "1.0.3",
   "description": "add, subtract, multiply, euclidean divide bit arrays of any size",
-  "main": "index.js",
+  "main": "node.js",
+  "browser": "dist/index.js",
+  "unpkg": "index.js",
+  "module": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node -r esm test.js",
+    "build": "parcel build index.js --no-source-maps"
   },
   "repository": {
     "type": "git",
@@ -17,7 +21,9 @@
   },
   "homepage": "https://github.com/dosaygo-coder-0/bitmath#readme",
   "dependencies": {
-    "uint1array": "^1.0.5"
+    "esm": "^3.2.25",
+    "save": "^2.4.0",
+    "uint1array": "^1.0.8"
   },
   "devDependencies": {},
   "keywords": [

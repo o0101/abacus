@@ -1,7 +1,6 @@
-"use strict";
-{
-  const Uint1Array = require('uint1array');
-  const bitmath = require('./index.js');
+  import Uint1Array from 'uint1array';
+  import bitmath from './index.js';
+
   const a = Uint1Array.of( 1, 1, 1, 1, 1, 1, 1 );
   const b = Uint1Array.of( 1, 1, 0, 0, 0, 1);
   const c = bitmath.add(a,b);
@@ -42,26 +41,24 @@
     modexp       = 3**255 % 32768 = ${modexp}
     modexp_naive = 3**255 % 32768 = ${modexp_naive}
   `);
-  const divisor = bitmath.fromSmallNumber( 17 );
-  const dividend = bitmath.fromSmallNumber( 8134 );
-  const dividend2 = bitmath.fromSmallNumber( 8250 );
+  const divisor = bitmath.from( 17 );
+  const dividend = bitmath.from( 8134 );
+  const dividend2 = bitmath.from( 8250 );
   const { quotient, remainder } = bitmath.div( dividend, divisor );
   const { quotient:quotient2, remainder:remainder2 } = bitmath.div( dividend2, divisor );
   console.log( `8134/17 = q ${quotient} r ${remainder}` );
   console.log( `8250/17 = q ${quotient2} r ${remainder2}` );
-  /** works 
   for( let i = 0; i < 100; i++ ) {
     for( let j = i; j < 100; j++ ) {
-      const x = bitmath.fromSmallNumber(j);
-      const y = bitmath.fromSmallNumber(i);
+      const x = bitmath.from(j);
+      const y = bitmath.from(i);
       const rd = j - i;
-      const cd = bitmath.toSmallNumber( bitmath.dif( x, y ) );
+      const cd = bitmath.to( bitmath.dif( x, y ) );
       const t = rd == cd;
       if ( ! t ) {
         console.warn( "There is some problem." , j, i );
       }
-      console.log( rd, cd, t, j, i );
+      //console.log( rd, cd, t, j, i );
     }
   }
-  **/
-}
+  console.log('Tests passs');

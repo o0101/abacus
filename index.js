@@ -1,10 +1,4 @@
-"use strict";
-// all arguments are assumed to be typed arrays of bits, or equivalently, uint1array
-{
-  // import 
-
-    const Uint1Array = require('uint1array');
-
+import Uint1Array from 'uint1array';
   // export
 
     const bitmath = {
@@ -13,11 +7,11 @@
       less_than, more_than, equal,
       mod,
       inv, and, xor, or,
-      toSmallNumber, fromSmallNumber
-    };
+      to, from
+    }
 
-    try { module.exports = bitmath; } catch(e) { Object.assign( self, { bitmath } ) }
-  
+    export default bitmath;
+
   // helpers 
 
     function to_minlen( ...v ) {
@@ -361,6 +355,9 @@
 
   // to small number
 
+    function to( b ) { return toSmallNumber(b) };
+    function from( n ) { return fromSmallNumber(n) };
+
     function toSmallNumber( b ) {
       let n = 0;
       let base = 2;
@@ -380,5 +377,4 @@
       }
       return Uint1Array.of( ...bits );
     }
-}
 
