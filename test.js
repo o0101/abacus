@@ -61,4 +61,7 @@
       //console.log( rd, cd, t, j, i );
     }
   }
+  const m = bitmath.from(58);
+  const y = bitmath.to(bitmath.quo(m,bitmath.from(5)));
+  console.log(m,5,y);
   console.log('Tests passs');

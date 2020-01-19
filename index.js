@@ -5,7 +5,7 @@ import Uint1Array from 'uint1array';
       modexp, modexp_naive,
       add, dif, mul, div, 
       less_than, more_than, equal,
-      mod,
+      quo, mod,
       inv, and, xor, or,
       to, from
     }
@@ -299,6 +299,10 @@ import Uint1Array from 'uint1array';
 
     function mod( u, v ) {
       return div( u, v ).remainder;
+    }
+
+    function quo( u, v ) {
+      return div( u, v ).quotient;
     }
 
   // repetition ( modular exponentiation )

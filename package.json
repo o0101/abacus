@@ -9,9 +9,12 @@
   "pre-commit": [
     "build"
   ],
+  "browserslist": [
+    "> 5%"
+  ],
   "scripts": {
     "test": "node -r esm test.js",
-    "build": "parcel build index.js --no-source-maps"
+    "build": "parcel build index.js --no-source-maps && rm -rf .cache"
   },
   "repository": {
     "type": "git",
@@ -26,7 +29,7 @@
   "dependencies": {
     "esm": "^3.2.25",
     "save": "^2.4.0",
-    "uint1array": "^1.0.8"
+    "uint1array": "^1.1.1"
   },
   "devDependencies": {
     "pre-commit": "^1.2.2"
