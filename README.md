@@ -13,10 +13,13 @@ npm i --save bitmath
 very simple.
 
 ```
-m = require('bitmath');
+import m from 'bitmath';
+import Uint1Array from 'uint1array';
+
 x = Uint1Array.of(1,0,1,0);
 y = Uint1Array.of(1,1,1);
 z = Uint1Array.of(0,1);
+
 m.add(x,y)
 m.mul(x,y)
 m.div(x,y)
