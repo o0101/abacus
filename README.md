@@ -2,7 +2,11 @@
 
 add, subtract, multiply, euclidean divide bit arrays of any size
 
-Also on [npm](https://www.npmjs.com/package/bitmath)
+## get
+
+```console
+npm i --save bitmath
+```
 
 ## api
 
