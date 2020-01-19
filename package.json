@@ -6,6 +6,9 @@
   "browser": "dist/index.js",
   "unpkg": "index.js",
   "module": "index.js",
+  "pre-commit": [
+    "build"
+  ],
   "scripts": {
     "test": "node -r esm test.js",
     "build": "parcel build index.js --no-source-maps"
@@ -25,7 +28,9 @@
     "save": "^2.4.0",
     "uint1array": "^1.0.8"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "pre-commit": "^1.2.2"
+  },
   "keywords": [
     "bitmath",
     "arbitrary-precision"
