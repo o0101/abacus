@@ -1,4 +1,4 @@
-# [bitmath](https://github.com/crislin2046/bitmath) ![npm downloads](https://img.shields.io/npm/dt/bitmath) ![version](https://img.shields.io/npm/v/bitmath)
+# :keycap_ten: [abacus](https://github.com/crislin2046/bitmath) ![npm downloads](https://img.shields.io/npm/dt/bitmath) ![version](https://img.shields.io/npm/v/bitmath)
 
 add, subtract, multiply, euclidean divide bit arrays of any size
 
