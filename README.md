@@ -1,6 +1,8 @@
 # :keycap_ten: [abacus](https://github.com/crislin2046/bitmath) ![npm downloads](https://img.shields.io/npm/dt/bitmath) ![version](https://img.shields.io/npm/v/bitmath)
 
-bit arithmetic package to add, subtract, multiply, euclidean divide bit arrays of any size
+bit arithmetic package to add, subtract, multiply, euclidean divide bit arrays of any size.
+
+Uses [Uint1Array](https://npmjs.com/package/uint1array).
 
 ## get
 
@@ -10,24 +12,21 @@ npm i --save bitmath
 
 ## api
 
-very simple.
-
 ```
 import m from 'bitmath';
 import Uint1Array from 'uint1array';
 
-x = Uint1Array.of(1,0,1,0);
-y = Uint1Array.of(1,1,1);
+x = m.from(28);               // create bit field from number 28
+y = Uint1Array.of(1,1,1);     // or just create using Uint1Array TypedArray
 z = Uint1Array.of(0,1);
 
 m.add(x,y)
 m.mul(x,y)
 m.div(x,y)
-m.dif(x,y) // subtract (no negative values!)
+m.dif(x,y)                    // subtract (note: sign is omitted)
 m.mod(x,y)
 m.modexp(x,y,x)
 ```
-
 
 ## Timesafe Notes
 
